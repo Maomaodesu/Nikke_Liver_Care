@@ -9,5 +9,5 @@ overclocking = False
 
 
 if __name__ == "__main__":
-    print("run")
+    print("test")
     task.gain_rewards(arena_shop_task)

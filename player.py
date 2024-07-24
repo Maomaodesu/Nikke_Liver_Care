@@ -159,9 +159,8 @@ class Player(object):
             time.sleep(self.interval)
         return re
 
-        # 核心功能， 在background大图片上定位target_name对应的小图片位置
-        # debug开启则会以图片形式显示查找结果
-
+    # 核心功能， 在background大图片上定位target_name对应的小图片位置
+    # debug开启则会以图片形式显示查找结果
     def locate(self, background, target_name, debug=0):
         loc_pos = []
         target, c_name = self.target_map[target_name]

@@ -17,7 +17,7 @@ def change_click(click_pattern):
 # 收取每日资源
 def gain_rewards(arena_shop_task):
     while True:
-        # 仓库收米
+        # 收获珠宝
         if my_player.exist(['shop']):
             my_player.find_touch_skewing(['shop'], 90, 104)
             # my_player.find_touch(['destroy'])
