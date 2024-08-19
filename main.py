@@ -8,24 +8,8 @@ overclocking = False
 
 
 if __name__ == "__main__":
-    # task.test()
     task.daily()
-
-    # 新人竞技场
+    #
+    # task.test()
     # task.arena()
-
-    # 咨询
-    # task.consult()
-
-    # # 邮箱
-    # task.mail()
-
-    # 免费商店
-    # task.free_shop()
-
-    # 付费商店
-    # task.paid_shop()
-
-    # 模拟室
-    # task.simulation_room()
 

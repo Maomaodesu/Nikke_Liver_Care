@@ -47,23 +47,23 @@ def get_position_with_offset(position, range=5):
     return (x, y)
 
 
+def player_click_without_delay(position):
+    # 电脑原本鼠标位置
+    originPosition = pyautogui.position()
+    x, y = get_position_with_offset(position)
+    duration = random.uniform(0.01, 0.02)
+    pyautogui.moveTo(x, y, duration=duration)
+    pyautogui.click()
+    pyautogui.moveTo(*originPosition, duration=duration)
+
+
 class Player(object):
-    def __init__(self, accuracy=0.9):
+    def __init__(self, accuracy=0.8):
         super(Player, self).__init__()
         self.accuracy = accuracy
-        self.wait_second = 1.5
+        self.wait_second = 3
         self.img_dictionary = load_img_dictionary()
         self.screen_nd_array = get_screen_nd_array()
-
-    def player_click(self, position):
-        # 电脑原本鼠标位置
-        originPosition = pyautogui.position()
-        x, y = get_position_with_offset(position)
-        duration = random.uniform(0.01, 0.02)
-        pyautogui.moveTo(x, y, duration=duration)
-        pyautogui.click()
-        pyautogui.moveTo(*originPosition, duration=duration)
-        time.sleep(self.wait_second)
 
     # 在background大图片上定位target_name对应的小图片位置
     # debug开启则会以图片形式显示查找结果
@@ -95,27 +95,6 @@ class Player(object):
             return position_2d
         return None
 
-    def click_by_order(self, img_name_list):
-        for img_name in img_name_list:
-            screen_nd_array = get_screen_nd_array()
-            position_2d = self.locate(screen_nd_array, img_name)
-            if position_2d is not None:
-                self.player_click(position_2d)
-            else:
-                continue
-
-    def match_and_click_with_shift(self, img_name, direction, distance, img_name_list):
-        screen_nd_array = get_screen_nd_array()
-        position_2d = self.locate(screen_nd_array, img_name)
-        if position_2d is not None:
-            position_2d_with_shift = (
-                position_2d[0] + distance * math.cos(math.radians(direction)),
-                position_2d[1] + distance * math.sin(math.radians(direction))
-            )
-            self.player_click(position_2d_with_shift)
-            if img_name_list:
-                self.click_by_order(img_name_list)
-
     def match(self, exist_img_name):
         screen_nd_array = get_screen_nd_array()
         position_2d = self.locate(screen_nd_array, exist_img_name)
@@ -124,11 +103,28 @@ class Player(object):
         else:
             return None
 
+    def player_click(self, position):
+        # 电脑原本鼠标位置
+        originPosition = pyautogui.position()
+        x, y = get_position_with_offset(position)
+        duration = random.uniform(0.01, 0.02)
+        pyautogui.moveTo(x, y, duration=duration)
+        pyautogui.click()
+        pyautogui.moveTo(*originPosition, duration=duration)
+        time.sleep(self.wait_second)
+
     def match_and_click_with_delay(self, img_name, wait_second):
         matched_position_2d = self.match(img_name)
         if matched_position_2d is not None:
-            self.player_click(matched_position_2d)
+            player_click_without_delay(matched_position_2d)
             time.sleep(wait_second)
+
+    def match_and_click_primary(self, img_name_list):
+        for img_name in img_name_list:
+            matched_position_2d = self.match(img_name)
+            if matched_position_2d is not None:
+                self.player_click(matched_position_2d)
+                break
 
     def match_and_click_by_order(self, img_name_list):
         for img_name in img_name_list:
