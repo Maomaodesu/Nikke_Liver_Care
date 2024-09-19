@@ -148,3 +148,24 @@ class Player(object):
             matched_position_2d_with_shift = self.match_with_shift(img_name_with_shift)
             if matched_position_2d_with_shift is not None:
                 self.player_click(matched_position_2d_with_shift)
+
+    def match_with_shift_twice(self, img_name_with_shift_twice):
+        screen_nd_array = get_screen_nd_array()
+        img_name, direction_1, distance_1, direction_2, distance_2,  = img_name_with_shift_twice
+        position_2d = self.locate(screen_nd_array, img_name)
+        if position_2d is not None:
+            position_2d_with_shift = (
+                position_2d[0] + distance_1 * math.cos(math.radians(direction_1)),
+                position_2d[1] + distance_1 * math.sin(math.radians(direction_1))
+            )
+            position_2d_with_shift_twice = (
+                position_2d_with_shift[0] + distance_2 * math.cos(math.radians(direction_2)),
+                position_2d_with_shift[1] + distance_2 * math.sin(math.radians(direction_2))
+            )
+            return position_2d_with_shift_twice
+
+    def match_and_click_by_order_with_shift_twice(self, img_name_list_with_shift_twice):
+        for img_name_with_shift_twice in img_name_list_with_shift_twice:
+            matched_position_2d_with_shift_twice = self.match_with_shift_twice(img_name_with_shift_twice)
+            if matched_position_2d_with_shift_twice is not None:
+                self.player_click(matched_position_2d_with_shift_twice)

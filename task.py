@@ -180,7 +180,7 @@ def simulation_room():
             # 进入模拟关卡
             'simulation_battle_normal', 'simulation_battle_hard', 'simulation_boss_battle',
             # 战斗开始 - 结束
-            'simulation_battle_begin', 'simulation_battle_end'
+            'simulation_quick_battle','simulation_battle_begin', 'simulation_battle_end'
         ])
         player.match_and_click_by_order([
             # 选择增益效果 EPIC
@@ -216,8 +216,9 @@ def simulation_room():
                 'simulation_buff_EPIC', 'simulation_buff_SSR', 'simulation_buff_SR', 'simulation_buff_R'
             ])
             player.match_and_click_by_order_with_shift([
-                ('simulation_end_buff_exchange', 90, 300),
-                ('simulation_end_buff_confirm', 0, 0)
+                ('simulation_end_buff_confirm', 0, 0),
+                ('simulation_buff_owned', 90, 80),
+                ('simulation_buff_exchange_confirm', 0, 0)
             ])
             time.sleep(5)
             break
@@ -228,7 +229,8 @@ def simulation_room():
 # 咨询
 def consult():
     # 对第一个nikke进行咨询
-    player.match_and_click_by_order(['lobby', 'nikke', 'nikke_consult', 'nikke_consult_target'])
+    player.match_and_click_by_order(['lobby', 'nikke', 'nikke_consult'])
+    player.match_and_click_by_order_with_shift([('nikke_consult_all', 90, 120)])
     while True:
         # 循环结束条件 指挥官体力用尽 —— 快速咨询
         if player.match('nikke_consult_quick'):
@@ -292,7 +294,7 @@ def arena():
                 player.match_and_click_by_order(['HOME'])
                 break
         player.match_and_click_by_order_with_shift([
-            ('arena_beginner_battle_free', 90, 185),
+            ('arena_beginner_battle_free', 90, 220),
             ('arena_beginner_battle_enter', 0, 0),
             ('arena_next', 270, 200)
         ])
@@ -300,18 +302,18 @@ def arena():
 
 # 日常
 def daily():
-    # # 防御前哨基地 一举歼灭 获取奖励
-    # defence_base()
-    # time.sleep(5)
-    # # 友情点
-    # friend_points()
-    # time.sleep(5)
-    # # 邮箱
-    # mail()
-    # time.sleep(5)
-    # # 新人竞技场
-    # arena()
-    # time.sleep(5)
+    # 防御前哨基地 一举歼灭 获取奖励
+    defence_base()
+    time.sleep(5)
+    # 友情点
+    friend_points()
+    time.sleep(5)
+    # 邮箱
+    mail()
+    time.sleep(5)
+    # 新人竞技场
+    arena()
+    time.sleep(5)
     # 免费商店
     free_shop()
     time.sleep(5)
@@ -322,11 +324,37 @@ def daily():
     consult()
     time.sleep(5)
     # 模拟
-    simulation_room()
+    # simulation_room()
 
 
-def test():
-    player.match('simulation_end_buff_exchange')
+def test1():
+
+    if player.match("simulation_end_buff_confirm") is not None:
+        print("simulation_end_buff_confirm")
+    # if player.match("simulation_buff_SR") is not None:
+    #     print("simulation_buff_SR")
+    # if player.match("simulation_buff_R") is not None:
+    #     print("simulation_buff_R")
+    # if player.match("simulation_buff_owned") is not None:
+    #     print("simulation_buff_owned")
+    # if player.match("simulation_buff_exchange_confirm") is not None:
+    #     print("simulation_buff_exchange_confirm")
+    # # 选择通关增益效果
+    # player.match_and_click_primary([
+    #     'simulation_buff_EPIC', 'simulation_buff_SSR', 'simulation_buff_SR', 'simulation_buff_R'
+    # ])
+    # player.match_and_click_by_order_with_shift([
+    #     ('simulation_buff_owned', 90, 80),
+    #     ('simulation_buff_exchange_confirm', 0, 0)
+    # ])
+    # time.sleep(5)
+
+def test(uu,steamBuy):
+    steamBuy =  steamBuy * 0.87
+    resultBuy = uu / steamBuy
+    print(resultBuy)
+    # player.match('simulation_buff_owned')
+
 
     # player.match('arena_beginner_battle_free')
     # player.match('arena_beginner_battle_end')
