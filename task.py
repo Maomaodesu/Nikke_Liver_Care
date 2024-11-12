@@ -67,6 +67,20 @@ def free_shop():
     # 竞技场商店购买每日物品
     player.match_and_click_by_order_with_shift([
         ('arena_shop_unselected', 0, 0),
+        ('arena_shop_selected', 0, 660)
+    ])
+    player.match_and_click_with_delay('arena_shop_purchase', 0.1)
+    if player.match('free_shop_insufficient_funds') is not None:
+        player.match_and_click_by_order_with_shift([
+            ('arena_shop_purchase_cancel', 0, 0),
+            ('RETURN', 0, 0)
+        ])
+    else:
+        player.match_and_click_by_order_with_shift([
+            ('REWARD', 0, 0)
+        ])
+    player.match_and_click_by_order_with_shift([
+        ('arena_shop_unselected', 0, 0),
         ('arena_shop_selected', 0, 110)
     ])
     player.match_and_click_with_delay('arena_shop_purchase', 0.1)
@@ -124,7 +138,6 @@ def free_shop():
         ])
 
 
-
 # 付费商店
 def paid_shop():
     daily = False
@@ -180,25 +193,28 @@ def simulation_room():
             # 进入模拟关卡
             'simulation_battle_normal', 'simulation_battle_hard', 'simulation_boss_battle',
             # 战斗开始 - 结束
-            'simulation_quick_battle','simulation_battle_begin', 'simulation_battle_end'
+            'simulation_quick_battle', 'simulation_battle_begin', 'simulation_battle_end'
         ])
         player.match_and_click_by_order([
-            # 选择增益效果 EPIC
-            'simulation_buff_EPIC', 'simulation_buff_confirm',
-            # 选择增益效果 SSR
-            'simulation_buff_SSR', 'simulation_buff_confirm',
-            # 选择增益效果 SR
-            'simulation_buff_SR', 'simulation_buff_confirm',
-            # 选择增益效果 R
-            'simulation_buff_R', 'simulation_buff_confirm'
+            'simulation_buff_no_choose', 'simulation_buff_no_choose_confirm'
         ])
-        # 增益效果交换
-        simulation_buff_owned = player.match('simulation_buff_owned')
-        if simulation_buff_owned is not None:
-            player.match_and_click_by_order_with_shift([
-                ('simulation_buff_owned', 90, 80),
-                ('simulation_buff_exchange_confirm', 0, 0)
-            ])
+        # player.match_and_click_by_order([
+        #     # 选择增益效果 EPIC
+        #     'simulation_buff_EPIC', 'simulation_buff_confirm',
+        #     # 选择增益效果 SSR
+        #     'simulation_buff_SSR', 'simulation_buff_confirm',
+        #     # 选择增益效果 SR
+        #     'simulation_buff_SR', 'simulation_buff_confirm',
+        #     # 选择增益效果 R
+        #     'simulation_buff_R', 'simulation_buff_confirm'
+        # ])
+        # # 增益效果交换
+        # simulation_buff_owned = player.match('simulation_buff_owned')
+        # if simulation_buff_owned is not None:
+        #     player.match_and_click_by_order_with_shift([
+        #         ('simulation_buff_owned', 90, 80),
+        #         ('simulation_buff_exchange_confirm', 0, 0)
+        #     ])
         # 选择治疗和属性提升
         player.match_and_click_by_order([
             'simulation_treatment_room', 'simulation_treatment_cure',
@@ -209,17 +225,20 @@ def simulation_room():
         if player.match('simulation_end') is not None:
             player.match_and_click_by_order([
                 'simulation_end',
-                'simulation_end_confirm'
+                'simulation_end_confirm',
+                'simulation_end_buff_no_choose',
+                'simulation_buff_exchange_confirm',
+                'simulation_end_buff_no_choose_confirm',
             ])
-            # 选择通关增益效果
-            player.match_and_click_primary([
-                'simulation_buff_EPIC', 'simulation_buff_SSR', 'simulation_buff_SR', 'simulation_buff_R'
-            ])
-            player.match_and_click_by_order_with_shift([
-                ('simulation_end_buff_confirm', 0, 0),
-                ('simulation_buff_owned', 90, 80),
-                ('simulation_buff_exchange_confirm', 0, 0)
-            ])
+            # # 选择通关增益效果
+            # player.match_and_click_primary([
+            #     'simulation_buff_EPIC', 'simulation_buff_SSR', 'simulation_buff_SR', 'simulation_buff_R'
+            # ])
+            # player.match_and_click_by_order_with_shift([
+            #     ('simulation_end_buff_confirm', 0, 0),
+            #     ('simulation_buff_owned', 90, 80),
+            #     ('simulation_buff_exchange_confirm', 0, 0)
+            # ])
             time.sleep(5)
             break
     # 返回主页
@@ -302,28 +321,26 @@ def arena():
 
 # 日常
 def daily():
-    # 防御前哨基地 一举歼灭 获取奖励
-    defence_base()
-    time.sleep(5)
-    # 友情点
-    friend_points()
-    time.sleep(5)
-    # 邮箱
-    mail()
-    time.sleep(5)
-    # 新人竞技场
-    arena()
-    time.sleep(5)
-    # 免费商店
-    free_shop()
-    time.sleep(5)
-    # 付费商店
-    paid_shop()
-    time.sleep(5)
-    # 咨询
-    consult()
-    time.sleep(5)
+    # # 防御前哨基地 一举歼灭 获取奖励
+    # defence_base()
+    # time.sleep(5)
+    # # 友情点
+    # friend_points()
+    # time.sleep(5)
+    # # 邮箱
+    # mail()
+    # time.sleep(5)
+    # # 新人竞技场
+    # arena()
+    # time.sleep(5)
+    # # 免费商店
+    # free_shop()
+    # time.sleep(5)
+    # # 付费商店
+    # paid_shop()
+    # time.sleep(5)
+    # # 咨询
+    # consult()
+    # time.sleep(5)
     # 模拟
-    # simulation_room()
-
-
+    simulation_room()
